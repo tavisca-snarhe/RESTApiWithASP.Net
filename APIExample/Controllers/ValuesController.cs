@@ -1,44 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace APIExample.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        static List<string> values = new List<string>();
+
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return values;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            if (values.Count-1 < id)
+                return "Index Out of bound";
+            return values[id];
         }
 
-        // POST api/values
+        // POST api/values/6
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]JObject req)
         {
+            if(req.ContainsKey("value"))
+                values.Add(req.SelectToken("value").ToString());
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public string Put(int id, [FromBody]JObject req)
         {
+            if (values.Count-1 < id)
+                return "Index Out of bound";
+            if (req.ContainsKey("value"))
+                values[id] = req.SelectToken("value").ToString();
+
+            return "Success";
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public string Delete(int id)
         {
+            if (values.Count-1 < id)
+                return "Index Out of bound";
+            values.RemoveAt(id);
+            return "Success";
         }
     }
 }
