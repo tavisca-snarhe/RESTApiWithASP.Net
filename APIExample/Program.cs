@@ -18,6 +18,7 @@ namespace APIExample
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
+                .UseUrls(urls:"http://*:1234")
                 .Build();
 
             host.Run();
