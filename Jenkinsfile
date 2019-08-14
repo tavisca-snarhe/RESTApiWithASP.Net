@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "dotnet build"
+                sh "dotnet build -p:Configuration=release -v:n"
             }
         }
         stage('Test') {
