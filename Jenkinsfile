@@ -19,7 +19,7 @@ pipeline {
         }
 	stage('publish') {
             steps {
-                dotnet build
+                dotnet publish
             }
         }
     }
