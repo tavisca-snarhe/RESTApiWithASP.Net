@@ -4,22 +4,22 @@ pipeline {
     stages {
 	stage('Restore') {
             steps {
-                dotnet restore
+                sh "dotnet restore"
             }
         }
         stage('Build') {
             steps {
-                dotnet build
+                sh "dotnet build"
             }
         }
         stage('Test') {
             steps {
-                dotnet test
+                sh "dotnet test"
             }
         }
 	stage('publish') {
             steps {
-                dotnet publish
+                sh "dotnet publish"
             }
         }
     }
